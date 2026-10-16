@@ -1,0 +1,19 @@
+def vacuum_cleaner():
+    room = {'A': 'Dirty', 'B': 'Dirty'}
+    position = 'A'
+
+    while 'Dirty' in room.values():
+        print("Current Position:", position)
+        print("Room Status:", room)
+
+        if room[position] == 'Dirty':
+            print("Action: Suck")
+            room[position] = 'Clean'
+        else:
+            position = 'B' if position == 'A' else 'A'
+            print("Action: Move", position)
+
+    print("All rooms are clean!")
+    print("Final Status:", room)
+
+vacuum_cleaner()
