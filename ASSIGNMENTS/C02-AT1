@@ -1,0 +1,114 @@
+### Question 1: Greedy Best-First Search
+
+h = {'Gate': 400, 'Library': 330, 'Canteen': 240,
+     'Hostel': 160, 'Admin': 110, 'Auditorium': 0}
+
+graph = {
+    'Gate': [('Library', 120), ('Canteen', 200)],
+    'Canteen': [('Hostel', 100), ('Admin', 260)],
+    'Admin': [('Auditorium', 120)],
+    'Hostel': [('Auditorium', 180)],
+    'Library': [('Lab', 150), ('Hostel', 300)],
+    'Lab': [('Auditorium', 350)],
+    'Auditorium': []
+}
+
+node, distance = 'Gate', 0
+path = [node]
+visited = set()
+
+while node != 'Auditorium':
+    visited.add(node)
+    candidates = [(h[n], n, d) for n, d in graph[node]
+                  if n not in visited]
+    _, nxt, cost = min(candidates)
+    distance += cost
+    node = nxt
+    path.append(node)
+
+print("Route:", " -> ".join(path))
+print("Total Distance:", distance, "m")
+
+### Question 2: A* Search
+
+import heapq
+
+h = {'Gate': 400, 'Library': 330, 'Canteen': 240,
+     'Lab': 280, 'Hostel': 160, 'Admin': 110,
+     'Auditorium': 0}
+
+graph = {
+    'Gate': [('Library', 120), ('Canteen', 200)],
+    'Library': [('Lab', 150), ('Hostel', 300)],
+    'Canteen': [('Hostel', 100), ('Admin', 260)],
+    'Lab': [('Auditorium', 350)],
+    'Hostel': [('Auditorium', 180)],
+    'Admin': [('Auditorium', 120)],
+    'Auditorium': []
+}
+
+pq = [(h['Gate'], 0, 'Gate', ['Gate'])]
+best = {'Gate': 0}
+
+while pq:
+    f, g, node, path = heapq.heappop(pq)
+
+    if g != best[node]:
+        continue
+
+    if node == 'Auditorium':
+        print("Route:", " -> ".join(path))
+        print("Total Distance:", g, "m")
+        break
+
+    for nxt, cost in graph[node]:
+        ng = g + cost
+        if ng < best.get(nxt, float('inf')):
+            best[nxt] = ng
+            heapq.heappush(
+                pq, (ng + h[nxt], ng, nxt, path + [nxt])
+            )
+
+
+### Question 4: Minimax Algorithm
+
+scores = [4, 7, 8, 2, 3, 5, 6, 9]
+
+x_values = [max(scores[i:i+2]) for i in range(0, 8, 2)]
+o_values = [min(x_values[i:i+2]) for i in range(0, 4, 2)]
+
+print("X Node Values:", x_values)
+print("O Node Values:", o_values)
+print("Best First Move: X1")
+print("Guaranteed Score:", max(o_values))
+
+
+### Question 5: Alpha-Beta Pruning
+
+moves = {
+    'M1': [6, 9, 7],
+    'M2': [4, 8, 10],
+    'M3': [7, 5, 12]
+}
+
+alpha = float('-inf')
+evaluated = 0
+
+for move, scores in moves.items():
+    beta = float('inf')
+
+    for i, score in enumerate(scores):
+        evaluated += 1
+        beta = min(beta, score)
+
+        if beta <= alpha:
+            print(move, "Pruned:", scores[i+1:])
+            break
+
+    print(move, "Value:", beta)
+    alpha = max(alpha, beta)
+
+print("Best Value:", alpha)
+print("Positions Evaluated:", evaluated)
+print("Positions Pruned:", 9 - evaluated)
+```
