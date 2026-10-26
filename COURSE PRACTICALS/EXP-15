@@ -1,0 +1,27 @@
+def alphabeta(d, n, maxp, v, a, b):
+    if d == 3:
+        return v[n]
+
+    if maxp:
+        best = float('-inf')
+        for i in range(2):
+            val = alphabeta(d+1, n*2+i, False, v, a, b)
+            best = max(best, val)
+            a = max(a, best)
+            if a >= b:
+                break
+        return best
+    else:
+        best = float('inf')
+        for i in range(2):
+            val = alphabeta(d+1, n*2+i, True, v, a, b)
+            best = min(best, val)
+            b = min(b, best)
+            if a >= b:
+                break
+        return best
+
+values = [3, 5, 6, 9, 1, 2, 0, -1]
+result = alphabeta(0, 0, True, values, float('-inf'), float('inf'))
+
+print("Optimal value:", result)
