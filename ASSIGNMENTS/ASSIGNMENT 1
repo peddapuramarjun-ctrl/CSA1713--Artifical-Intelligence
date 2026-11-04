@@ -1,0 +1,198 @@
+import random
+import heapq
+import time
+import sys
+from collections import deque
+
+sys.setrecursionlimit(2000000)
+
+# Generate hospital graph
+def generate_graph(n, seed=42):
+
+    random.seed(seed)
+    graph = [[] for _ in range(n)]
+
+    # Connect nodes to ensure reachability
+    for i in range(n - 1):
+        w = random.randint(1, 10)
+
+        graph[i].append((i + 1, w))
+        graph[i + 1].append((i, w))
+
+    # Add additional connections
+    for i in range(n):
+        for j in range(2, 5):
+
+            neighbour = i + j
+
+            if neighbour < n:
+                w = random.randint(1, 10)
+                graph[i].append((neighbour, w))
+                graph[neighbour].append((i, w))
+
+    return graph
+
+
+# Breadth First Search
+def bfs(graph, start, goal):
+
+    queue = deque([(start, [start])])
+    visited = {start}
+
+    generated = 1
+    expanded = 0
+    max_frontier = 1
+
+    while queue:
+
+        node, path = queue.popleft()
+        expanded += 1
+
+        if node == goal:
+            return path, generated, expanded, max_frontier
+
+        for neighbour, cost in graph[node]:
+
+            if neighbour not in visited:
+
+                visited.add(neighbour)
+                queue.append((neighbour, path + [neighbour]))
+                generated += 1
+
+        max_frontier = max(max_frontier, len(queue))
+
+    return None, generated, expanded, max_frontier
+
+
+# Recursive Depth Limited Search
+def dls(graph, node, goal, limit, path=None,
+        generated=None, expanded=None):
+
+    if path is None:
+        path = [node]
+        generated = [1]
+        expanded = [0]
+
+    expanded[0] += 1
+
+    if node == goal:
+        return path
+
+    if limit == 0:
+        return None
+
+    for neighbour, cost in graph[node]:
+
+        if neighbour not in path:
+
+            generated[0] += 1
+
+            result = dls(
+                graph, neighbour, goal,
+                limit - 1, path + [neighbour],
+                generated, expanded
+            )
+
+            if result is not None:
+                return result
+
+    return None
+
+
+# Uniform Cost Search
+def ucs(graph, start, goal):
+
+    pq = [(0, start, [start])]
+
+    best = {start: 0}
+
+    generated = 1
+    expanded = 0
+    max_frontier = 1
+
+    while pq:
+
+        cost, node, path = heapq.heappop(pq)
+
+        if cost != best.get(node):
+            continue
+
+        expanded += 1
+
+        if node == goal:
+            return path, cost, generated, expanded, max_frontier
+
+        for neighbour, weight in graph[node]:
+
+            new_cost = cost + weight
+
+            if new_cost < best.get(neighbour, float('inf')):
+
+                best[neighbour] = new_cost
+
+                heapq.heappush(
+                    pq,
+                    (new_cost, neighbour, path + [neighbour])
+                )
+
+                generated += 1
+
+        max_frontier = max(max_frontier, len(pq))
+
+    return None, float('inf'), generated, expanded, max_frontier
+
+
+# Test algorithms
+def test_algorithms(n):
+
+    graph = generate_graph(n)
+
+    start = 0
+    goal = n - 1
+
+    print("\nHospital Graph Size:", n)
+
+    # BFS
+    t1 = time.perf_counter()
+
+    result = bfs(graph, start, goal)
+
+    t2 = time.perf_counter()
+
+    print("\nBFS")
+    print("Path Found:", result[0] is not None)
+    print("Generated:", result[1])
+    print("Expanded:", result[2])
+    print("Maximum Frontier:", result[3])
+    print("Time:", round(t2 - t1, 4), "seconds")
+
+    # DLS
+    t1 = time.perf_counter()
+
+    path = dls(graph, start, goal, n)
+
+    t2 = time.perf_counter()
+
+    print("\nDLS")
+    print("Path Found:", path is not None)
+    print("Time:", round(t2 - t1, 4), "seconds")
+
+    # UCS
+    t1 = time.perf_counter()
+
+    result = ucs(graph, start, goal)
+
+    t2 = time.perf_counter()
+
+    print("\nUCS")
+    print("Path Found:", result[0] is not None)
+    print("Path Cost:", result[1])
+    print("Generated:", result[2])
+    print("Expanded:", result[3])
+    print("Maximum Frontier:", result[4])
+    print("Time:", round(t2 - t1, 4), "seconds")
+
+
+# Execute tests
+for size in [1000, 10000, 100000]:
+    test_algorithms(size)
