@@ -1,0 +1,13 @@
+% Greedy best-first graph search using heuristic values.
+:- use_module(library(heaps)).
+edge(a,b). edge(a,c). edge(b,d). edge(c,e). edge(d,g). edge(e,g).
+heuristic(a,5). heuristic(b,4). heuristic(c,2). heuristic(d,3). heuristic(e,1). heuristic(g,0).
+best_first(Start, Goal, Path) :- empty_heap(H0), heuristic(Start, HS), add_to_heap(H0, HS, [Start], H1), search(H1, [], Goal, Rev), reverse(Rev, Path).
+search(H, _, Goal, GoalPath) :- get_from_heap(H, _, [Goal|Rest], _), !, GoalPath = [Goal|Rest].
+search(H, Seen, Goal, Path) :- get_from_heap(H, _, RevPath, H0), RevPath=[Node|_],
+    ( memberchk(Node, Seen) -> search(H0, Seen, Goal, Path)
+    ; findall(Hv-[Next,Node|RevPath], (edge(Node,Next), \+ memberchk(Next,Seen), heuristic(Next,Hv)), Pairs),
+      add_pairs(Pairs,H0,H1), search(H1,[Node|Seen],Goal,Path) ).
+add_pairs([], H, H).
+add_pairs([K-V|Xs], H0, H) :- add_to_heap(H0,K,V,H1), add_pairs(Xs,H1,H).
+% Query: ?- best_first(a, g, Path).
