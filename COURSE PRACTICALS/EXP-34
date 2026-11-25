@@ -1,7 +1,0 @@
-import re
-POS={'good','great','excellent','love','happy','clear','helpful'}; NEG={'bad','poor','awful','hate','sad','confusing'}
-def analyze(text):
-    words=re.findall(r"[a-z']+",text.lower()); score=sum(w in POS for w in words)-sum(w in NEG for w in words)
-    return ('positive' if score>0 else 'negative' if score<0 else 'neutral',score)
-for s in ['The lesson was clear and helpful','The explanation was confusing and poor','The session is today']:
-    print(f'{s} -> {analyze(s)[0]} (score={analyze(s)[1]})')
