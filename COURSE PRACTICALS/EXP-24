@@ -1,0 +1,10 @@
+% State is state(MonkeyPosition, BoxPosition, MonkeyHasBanana).
+move(state(middle, middle, no), climb, state(middle, middle, no)).
+move(state(P, B, no), push_box(P, To), state(To, To, no)) :- P = B, adjacent(P, To).
+move(state(P, B, no), walk(P, To), state(To, B, no)) :- adjacent(P, To), P \= B.
+move(state(middle, middle, no), grasp, state(middle, middle, yes)).
+adjacent(left, middle). adjacent(middle, left).
+adjacent(middle, right). adjacent(right, middle).
+solve_monkey(State, []) :- State = state(_, _, yes), !.
+solve_monkey(State, [Action|Rest]) :- move(State, Action, Next), solve_monkey(Next, Rest).
+% Query: ?- solve_monkey(state(left, right, no), Plan).
