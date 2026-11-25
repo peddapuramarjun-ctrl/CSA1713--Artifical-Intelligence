@@ -1,0 +1,9 @@
+% Illustrative rule-based symptom checker; not a real diagnosis.
+symptom(cold, runny_nose).
+symptom(cold, sneezing).
+symptom(flu, fever).
+symptom(flu, body_ache).
+symptom(allergy, sneezing).
+symptom(allergy, itchy_eyes).
+likely_condition(Condition, Evidence) :- symptom(Condition, Evidence).
+% Query: ?- likely_condition(Condition, Symptom).
