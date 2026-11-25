@@ -1,0 +1,22 @@
+
+% KNN Classification
+
+class(1, apple).
+class(2, apple).
+class(3, apple).
+class(8, orange).
+class(9, orange).
+class(10, orange).
+
+classify(X, apple) :-
+    X =< 5.
+
+classify(X, orange) :-
+    X > 5.
+
+main :-
+    write('Enter a value: '),
+    read(X),
+    classify(X, Result),
+    write('Predicted Class: '),
+    write(Result).
