@@ -1,0 +1,10 @@
+% Educational example only; consult a qualified clinician for real dietary advice.
+recommendation(diabetes, limit, sugary_foods).
+recommendation(diabetes, prefer, high_fiber_vegetables).
+recommendation(hypertension, limit, high_salt_foods).
+recommendation(hypertension, prefer, fruits_and_vegetables).
+recommendation(anemia, prefer, iron_rich_foods).
+recommendation(anemia, combine_with, vitamin_c_sources).
+
+suggest(Disease, Advice, Food) :- recommendation(Disease, Advice, Food).
+% Query: ?- suggest(diabetes, Advice, Food).
