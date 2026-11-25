@@ -1,0 +1,11 @@
+% Bird flight knowledge base, including an explicit exception.
+bird(sparrow).
+bird(eagle).
+bird(penguin).
+can_fly(sparrow).
+can_fly(eagle).
+cannot_fly(penguin).
+
+flight_status(Bird, can_fly) :- bird(Bird), can_fly(Bird).
+flight_status(Bird, cannot_fly) :- bird(Bird), cannot_fly(Bird).
+% Queries: ?- flight_status(eagle, Status). ?- flight_status(penguin, Status).
