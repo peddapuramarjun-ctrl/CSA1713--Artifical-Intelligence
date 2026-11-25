@@ -1,0 +1,30 @@
+from collections import deque
+
+def water_jug():
+    queue = deque([(0, 0)])
+    visited = set()
+
+    while queue:
+        a, b = queue.popleft()
+
+        if (a, b) in visited:
+            continue
+
+        visited.add((a, b))
+        print(a, b)
+
+        if a == 4 or b == 4:
+            print("Goal Reached!")
+            return
+
+        states = [
+            (5, b), (a, 3), (0, b), (a, 0),
+            (a - min(a, 3-b), b + min(a, 3-b)),
+            (a + min(b, 5-a), b - min(b, 5-a))
+        ]
+
+        for state in states:
+            if state not in visited:
+                queue.append(state)
+
+water_jug()
