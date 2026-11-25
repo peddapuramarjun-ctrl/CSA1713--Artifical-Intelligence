@@ -1,0 +1,13 @@
+% Tiny propositional forward-chaining example.
+rule([fever, cough], flu).
+rule([flu], rest_needed).
+fact(fever).
+fact(cough).
+
+known(X, Facts) :- memberchk(X, Facts).
+forward_chain(Facts, Closure) :-
+    ( rule(Conditions, Conclusion), \+ known(Conclusion, Facts),
+      forall(member(C, Conditions), known(C, Facts)) ->
+        forward_chain([Conclusion|Facts], Closure)
+    ; Closure = Facts ).
+% Query: ?- forward_chain([fever,cough], Result).
