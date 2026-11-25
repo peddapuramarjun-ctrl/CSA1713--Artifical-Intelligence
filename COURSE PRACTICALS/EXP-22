@@ -1,0 +1,15 @@
+% Parent facts and derived family relations.
+parent(ravi, arun).
+parent(ravi, divya).
+parent(meera, arun).
+parent(meera, divya).
+parent(arun, kiran).
+parent(latha, kiran).
+
+father(F, C) :- parent(F, C), male(F).
+mother(M, C) :- parent(M, C), female(M).
+male(ravi). male(arun).
+female(meera). female(divya). female(latha).
+sibling(A, B) :- parent(P, A), parent(P, B), A \= B.
+grandparent(G, C) :- parent(G, P), parent(P, C).
+% Queries: ?- sibling(arun, divya). ?- grandparent(ravi, kiran).
