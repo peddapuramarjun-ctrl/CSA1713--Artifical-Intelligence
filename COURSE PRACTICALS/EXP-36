@@ -1,0 +1,5 @@
+
+from sklearn.svm import SVC
+X=[[-2,-1],[-1,-2],[-2,-2],[1,2],[2,1],[2,2]]; y=[0,0,0,1,1,1]
+m=SVC(kernel='linear',C=1).fit(X,y)
+print('Prediction for [1, 1]:',m.predict([[1,1]])[0]); print('Training accuracy:',round(m.score(X,y),2))
