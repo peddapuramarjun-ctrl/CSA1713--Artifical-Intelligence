@@ -1,0 +1,34 @@
+
+% Medical Diagnosis System
+
+% Patient Symptoms
+symptom(patient1, sneezing).
+symptom(patient1, runny_nose).
+symptom(patient1, mild_cough).
+
+symptom(patient2, fever).
+symptom(patient2, body_pain).
+symptom(patient2, headache).
+
+symptom(patient3, sneezing).
+symptom(patient3, itchy_eyes).
+
+% Diagnosis Rules
+diagnosis(P, common_cold) :-
+    symptom(P, sneezing),
+    symptom(P, runny_nose),
+    symptom(P, mild_cough).
+
+diagnosis(P, possible_flu) :-
+    symptom(P, fever),
+    symptom(P, body_pain),
+    symptom(P, headache).
+
+diagnosis(P, possible_allergy) :-
+    symptom(P, sneezing),
+    symptom(P, itchy_eyes).
+
+% Query:
+% ?- diagnosis(patient1, Disease).
+% ?- diagnosis(patient2, Disease).
+% ?- diagnosis(patient3, Disease).
