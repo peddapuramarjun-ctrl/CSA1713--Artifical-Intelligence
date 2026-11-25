@@ -1,0 +1,42 @@
+
+% Forward Chaining
+
+% Initial Facts
+fact(human).
+fact(has_life).
+
+% Rules
+rule(mortal, [human]).
+rule(needs_food, [has_life]).
+rule(needs_water, [has_life]).
+
+rule(needs_care, [needs_food, needs_water]).
+
+% Check whether all conditions are satisfied
+all_present([], _).
+
+all_present([H|T], Facts) :-
+    member(H, Facts),
+    all_present(T, Facts).
+
+% Forward Chaining Process
+forward_chain(Facts, Result) :-
+    findall(
+        Conclusion,
+        (
+            rule(Conclusion, Conditions),
+            all_present(Conditions, Facts),
+            \+ member(Conclusion, Facts)
+        ),
+        NewFacts
+    ),
+    (
+        NewFacts = [] ->
+        Result = Facts
+    ;
+        append(NewFacts, Facts, UpdatedFacts),
+        forward_chain(UpdatedFacts, Result)
+    ).
+
+% Query:
+% ?- forward_chain([human, has_life], Result).
