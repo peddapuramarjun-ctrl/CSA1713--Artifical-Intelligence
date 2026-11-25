@@ -1,0 +1,19 @@
+
+% Neural Network Demonstration
+
+image(1, cat).
+image(2, dog).
+image(3, cat).
+image(4, dog).
+
+classify(1, cat).
+classify(2, dog).
+classify(3, cat).
+classify(4, dog).
+
+main :-
+    write('Enter image number (1-4): '),
+    read(N),
+    classify(N, Result),
+    write('Predicted Image Class: '),
+    write(Result).
