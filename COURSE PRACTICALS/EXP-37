@@ -1,0 +1,23 @@
+
+% Genetic Algorithm Demonstration
+
+fitness(X, Y) :-
+    Y is -(X - 5) * (X - 5).
+
+population([1, 3, 5, 7, 9]).
+
+best(X, Score) :-
+    fitness(X, Score).
+
+main :-
+    population(List),
+    findall(Score-Value,
+        (member(Value, List),
+         fitness(Value, Score)),
+        Results),
+    sort(Results, Sorted),
+    last(Sorted, BestScore-BestValue),
+    write('Best Individual: '),
+    write(BestValue), nl,
+    write('Fitness Value: '),
+    write(BestScore).
