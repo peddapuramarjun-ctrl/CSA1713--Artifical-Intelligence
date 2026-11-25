@@ -1,0 +1,14 @@
+% SVM Binary Classification Demonstration
+
+classify(X, positive) :-
+    X >= 5.
+
+classify(X, negative) :-
+    X < 5.
+
+main :-
+    write('Enter a value: '),
+    read(X),
+    classify(X, Result),
+    write('Predicted Class: '),
+    write(Result).
