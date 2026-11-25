@@ -1,0 +1,14 @@
+
+% Database containing Name and Date of Birth
+
+person('Nava', '15-08-2008').
+person('Arun', '12-05-2007').
+person('Ravi', '20-10-2006').
+person('Kumar', '25-12-2008').
+
+% Rule to find date of birth
+find_dob(Name, DOB) :-
+    person(Name, DOB).
+
+% Query:
+% ?- find_dob('Nava', DOB).
