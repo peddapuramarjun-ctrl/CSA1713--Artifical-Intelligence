@@ -1,0 +1,80 @@
+
+% Best First Search Algorithm
+
+% Graph connections
+edge(a, b).
+edge(a, c).
+edge(b, d).
+edge(b, e).
+edge(c, f).
+edge(d, g).
+edge(e, g).
+edge(f, g).
+
+% Heuristic values
+heuristic(a, 7).
+heuristic(b, 6).
+heuristic(c, 4).
+heuristic(d, 5).
+heuristic(e, 2).
+heuristic(f, 3).
+heuristic(g, 0).
+
+% Best First Search
+best_first(Start, Goal, Path) :-
+    heuristic(Start, H),
+    best_first_search(
+        [node(Start, [Start], H)],
+        [],
+        Goal,
+        ReversePath
+    ),
+    reverse(ReversePath, Path).
+
+% Goal reached
+best_first_search(
+    [node(Goal, Path, _)|_],
+    _,
+    Goal,
+    Path
+).
+
+% Expand the current node
+best_first_search(
+    [node(Current, Path, _)|Rest],
+    Visited,
+    Goal,
+    Result
+) :-
+    findall(
+        node(Next, [Next|Path], H),
+        (
+            edge(Current, Next),
+            \+ member(Next, Visited),
+            \+ member(node(Next, _, _), Rest),
+            heuristic(Next, H)
+        ),
+        Children
+    ),
+    append(Rest, Children, NewOpen),
+    predsort(compare_node, NewOpen, Sorted),
+    best_first_search(
+        Sorted,
+        [Current|Visited],
+        Goal,
+        Result
+    ).
+
+% Sort nodes by heuristic value
+compare_node(Order, node(S1, _, H1), node(S2, _, H2)) :-
+    ( H1 < H2 ->
+        Order = (<)
+    ;
+        H1 > H2 ->
+        Order = (>)
+    ;
+        compare(Order, S1, S2)
+    ).
+
+% Query:
+% ?- best_first(a, g, Path).
