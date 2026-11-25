@@ -1,0 +1,24 @@
+
+% Student Database
+student(101, 'Nava', 'AI').
+student(102, 'Arun', 'Python').
+student(103, 'Ravi', 'Java').
+
+% Teacher Database
+teacher('AI', 'Mr.Kumar').
+teacher('Python', 'Mr.Raj').
+teacher('Java', 'Mrs.Sita').
+
+% Subject Code Database
+sub_code('AI', 'CSA17').
+sub_code('Python', 'CSA18').
+sub_code('Java', 'CSA19').
+
+% Rule to display student, teacher and subject code
+student_details(ID, Name, Subject, Teacher, Code) :-
+    student(ID, Name, Subject),
+    teacher(Subject, Teacher),
+    sub_code(Subject, Code).
+
+% Query:
+% ?- student_details(101, Name, Subject, Teacher, Code).
