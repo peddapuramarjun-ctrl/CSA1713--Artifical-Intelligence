@@ -1,0 +1,17 @@
+
+% Decision Tree Classification
+
+weather(sunny).
+weather(rainy).
+weather(cloudy).
+
+decision(sunny, play).
+decision(rainy, stay_home).
+decision(cloudy, play).
+
+main :-
+    write('Enter weather (sunny/rainy/cloudy): '),
+    read(W),
+    decision(W, Result),
+    write('Decision: '),
+    write(Result).
