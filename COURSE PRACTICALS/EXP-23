@@ -1,0 +1,42 @@
+
+% Family Tree Facts
+
+male(john).
+male(paul).
+male(rajesh).
+
+female(mary).
+female(lisa).
+female(anna).
+
+parent(john, paul).
+parent(mary, paul).
+parent(paul, lisa).
+parent(anna, lisa).
+parent(paul, rajesh).
+
+% Father and Mother Rules
+father(X, Y) :-
+    male(X),
+    parent(X, Y).
+
+mother(X, Y) :-
+    female(X),
+    parent(X, Y).
+
+% Grandparent Rule
+grandparent(X, Y) :-
+    parent(X, Z),
+    parent(Z, Y).
+
+% Sibling Rule
+sibling(X, Y) :-
+    parent(Z, X),
+    parent(Z, Y),
+    X \= Y.
+
+% Queries:
+% ?- father(john, paul).
+% ?- mother(mary, paul).
+% ?- grandparent(john, lisa).
+% ?- sibling(lisa, rajesh).
