@@ -1,0 +1,11 @@
+% Backward chaining proves goals from facts and rules.
+rule(flu, [fever, cough]).
+rule(rest_needed, [flu]).
+fact(fever).
+fact(cough).
+
+prove(Goal) :- fact(Goal).
+prove(Goal) :- rule(Goal, Conditions), prove_all(Conditions).
+prove_all([]).
+prove_all([Goal|Rest]) :- prove(Goal), prove_all(Rest).
+% Queries: ?- prove(flu). ?- prove(rest_needed).
