@@ -1,0 +1,18 @@
+
+% Linear Regression
+
+data(1, 2).
+data(2, 4).
+data(3, 6).
+data(4, 8).
+data(5, 10).
+
+predict(X, Y) :-
+    Y is 2 * X.
+
+main :-
+    write('Enter X value: '),
+    read(X),
+    predict(X, Y),
+    write('Predicted Y value: '),
+    write(Y).
