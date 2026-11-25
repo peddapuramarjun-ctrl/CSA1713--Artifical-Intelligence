@@ -1,0 +1,17 @@
+
+% Diet Recommendation Database
+
+diet(diabetes, low_sugar).
+diet(hypertension, low_salt).
+diet(obesity, balanced_diet).
+diet(anemia, iron_rich).
+diet(heart_disease, heart_healthy).
+
+% Rule to suggest diet
+suggest_diet(Disease, Diet) :-
+    diet(Disease, Diet).
+
+% Queries:
+% ?- suggest_diet(diabetes, X).
+% ?- suggest_diet(hypertension, X).
+% ?- suggest_diet(anemia, X).
