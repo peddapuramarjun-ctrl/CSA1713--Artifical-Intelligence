@@ -1,0 +1,32 @@
+
+% Backward Chaining
+
+% Facts
+fact(human(socrates)).
+fact(human(plato)).
+fact(human(aristotle)).
+
+% Rules
+rule(mortal(X), [human(X)]).
+
+rule(wise(X), [human(X), mortal(X)]).
+
+% Backward Chaining
+prove(Goal) :-
+    fact(Goal).
+
+prove(Goal) :-
+    rule(Goal, Conditions),
+    prove_all(Conditions).
+
+% Check all conditions
+prove_all([]).
+
+prove_all([H|T]) :-
+    prove(H),
+    prove_all(T).
+
+% Queries:
+% ?- prove(mortal(socrates)).
+% ?- prove(wise(plato)).
+% ?- prove(mortal(unknown)).
