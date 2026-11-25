@@ -1,0 +1,13 @@
+cloudy.
+windy.
+sunny.
+
+rainy :- cloudy, windy.
+
+predict_rain :-
+    rainy,
+    write('It will rain.').
+
+predict_rain :-
+    \+ rainy,
+    write('It will not rain.').
