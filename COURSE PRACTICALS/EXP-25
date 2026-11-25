@@ -1,0 +1,44 @@
+
+% Monkey Banana Problem
+
+% State: state(MonkeyPosition, BoxPosition,
+%              MonkeyHeight, HasBanana)
+
+% Monkey can walk
+move(state(M, B, ground, no),
+     walk(X),
+     state(X, B, ground, no)).
+
+% Monkey can push the box
+move(state(B, B, ground, no),
+     push(B, X),
+     state(X, X, ground, no)).
+
+% Monkey can climb the box
+move(state(M, M, ground, no),
+     climb,
+     state(M, M, onbox, no)).
+
+% Monkey can grasp banana
+move(state(middle, middle, onbox, no),
+     grasp,
+     state(middle, middle, onbox, yes)).
+
+% Initial state
+initial(state(door, window, ground, no)).
+
+% Goal state
+goal(state(_, _, _, yes)).
+
+% Solution
+solve :-
+    initial(S),
+    move(S, walk(window), S1),
+    move(S1, push(window, middle), S2),
+    move(S2, climb, S3),
+    move(S3, grasp, S4),
+    goal(S4),
+    write('Monkey gets the banana').
+
+% Query:
+% ?- solve.
