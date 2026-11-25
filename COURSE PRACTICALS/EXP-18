@@ -1,0 +1,10 @@
+% student(Student, Teacher, SubjectCode).
+student(anil, rao, cs101).
+student(bina, meena, cs102).
+student(charan, rao, cs103).
+teaches(rao, cs101).
+teaches(rao, cs103).
+teaches(meena, cs102).
+
+student_teacher_subject(S, T, C) :- student(S, T, C), teaches(T, C).
+% Query: ?- student_teacher_subject(Student, Teacher, Code).
