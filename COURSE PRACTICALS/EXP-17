@@ -1,0 +1,6 @@
+% Simple name and date-of-birth database. Dates use date(Year, Month, Day).
+person_dob(asha, date(2002, 4, 12)).
+person_dob(bala, date(2001, 9, 3)).
+person_dob(chitra, date(2003, 1, 25)).
+
+% Query: ?- person_dob(Name, DOB).
