@@ -1,0 +1,8 @@
+% Prolog backtracks over matching fruit/color facts.
+fruit_color(apple, red).
+fruit_color(banana, yellow).
+fruit_color(grape, purple).
+fruit_color(orange, orange).
+fruit_color(kiwi, green).
+
+% Queries: ?- fruit_color(Fruit, Color). ?- fruit_color(apple, Color).
