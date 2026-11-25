@@ -1,0 +1,7 @@
+% Move N disks from From to To using Aux.
+hanoi(0, _, _, _) :- !.
+hanoi(N, From, To, Aux) :- N > 0, N1 is N - 1,
+    hanoi(N1, From, Aux, To),
+    format('Move disk from ~w to ~w~n', [From, To]),
+    hanoi(N1, Aux, To, From).
+% Query: ?- hanoi(3, left, right, middle).
